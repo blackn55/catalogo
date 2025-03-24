@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Filmes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card-filme {
+            background: #242425;
+            width: 280px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            color: white;
+            box-shadow: 0 8px 16px rgba(93, 53, 138, 0.842);
+        }
+
+        .card-filme:hover {
+            transform: translateY(-5px);
+        }
+
+        .poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-bottom: 3px solid #ff9800;
+        }
+
+        .conteudo {
+            padding: 15px;
+        }
+
+        .titulo, .titulo3, .titulo4, .titulo6, .titulo7, 
+        .titulo8, .titulo9, .titulo15, .titulo17, .titulo19 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .titulo { color: #ff9800; }
+        .titulo3 { color: #0077ff; }
+        .titulo4 { color: #ff0000; }
+        .titulo6 { color: #5391c7; }
+        .titulo7 { color: #daa520; }
+        .titulo8 { color: #adaba6; }
+        .titulo9 { color: #ff3c00; }
+        .titulo15 { color: #a10000; }
+        .titulo17 { color: #306e2a; }
+        .titulo19 { color: #552792; }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #ccc;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .genero, .genero3, .genero4, .genero6, .genero7,
+        .genero8, .genero9, .genero15, .genero17, .genero19 {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8em;
+            color: #2d2d2d;
+        }
+
+        .genero { background: #ff9900; }
+        .genero3 { background: #0077ff; }
+        .genero4 { background: #ff0000; }
+        .genero6 { background: #5391c7; }
+        .genero7 { background: #daa520; }
+        .genero8 { background: #adaba6; }
+        .genero9 { background: #ff3c00; }
+        .genero15 { background: #a10000; }
+        .genero17 { background: #306e2a; }
+        .genero19 { background: #552792; }
+
+        .avaliacao {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .descricao {
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #aaa;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .botao, .botao3, .botao4, .botao6, .botao7,
+        .botao8, .botao9, .botao15, .botao17, .botao19 {
+            display: block;
+            width: 100%;
+            color: #2d2d2d;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .botao { background: #ff9900; }
+        .botao3 { background: #0077ff; }
+        .botao4 { background: #ff0000; }
+        .botao6 { background: #5391c7; }
+        .botao7 { background: #daa520; }
+        .botao8 { background: #adaba6; }
+        .botao9 { background: #ff3c00; }
+        .botao15 { background: #a10000; }
+        .botao17 { background: #306e2a; }
+        .botao19 { background: #552792; }
+
+        .botao:hover { background: #e68900; }
+        .botao3:hover { background: #0066cc; }
+        .botao4:hover { background: #cc0000; }
+        .botao6:hover { background: #467ea3; }
+        .botao7:hover { background: #b8860b; }
+        .botao8:hover { background: #94918c; }
+        .botao9:hover { background: #d93200; }
+        .botao15:hover { background: #870000; }
+        .botao17:hover { background: #265923; }
+        .botao19:hover { background: #46216e; }
+
+        .ano-duracao {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .fa-star {
+            margin-right: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .card-filme {
+                width: 100%;
+                max-width: 300px;
+            }
+            .poster { height: 350px; }
+            .conteudo { padding: 12px; }
+            .titulo, .titulo3, .titulo4, .titulo6, .titulo7,
+            .titulo8, .titulo9, .titulo15, .titulo17, .titulo19 {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-filme { width: 100%; max-width: 100%; }
+            .poster { height: 300px; }
+            .titulo, .titulo3, .titulo4, .titulo6, .titulo7,
+            .titulo8, .titulo9, .titulo15, .titulo17, .titulo19 {
+                font-size: 1.1em;
+            }
+            .info { flex-direction: column; align-items: flex-start; }
+            .ano-duracao { flex-direction: column; gap: 5px; }
+            .descricao { font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- FILME 1 -->
+        <div class="card-filme">
+            <img src="imagens/Dunaf.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo">Duna</h2>
+                <div class="ano-duracao">
+                    <span>2021</span>
+                    <span>2h 35m</span>
+                </div>
+                <div class="info">
+                    <span class="genero">Ficção científica/Aventura</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Paul Atreides é um jovem prodígio com um futuro grandioso e envolto em mistério que precisa viajar para o planeta mais perigoso do universo para garantir o futuro de sua família e seu povo.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt1160419/" class="botao">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 2 -->
+        <div class="card-filme">
+            <img src="imagens/Duna2.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo">Duna: A Profecia</h2>
+                <div class="ano-duracao">
+                    <span>2024</span>
+                    <span>2h 46m</span>
+                </div>
+                <div class="info">
+                    <span class="genero">Ficção científica/Aventura</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        7.3/10
+                    </div>
+                </div>
+                <p class="descricao">
+ rasharkonnen combatem forças que ameaçam o futuro da humanidade e estabelecem a lendária seita que se tornará conhecida como Bene Gesserit.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt10466872/?ref_=nv_sr_srsg_4_tt_4_nm_3_in_0_q_duna" class="botao">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 3 -->
+        <div class="card-filme">
+            <img src="imagens/Sololeveling.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo3">Solo Leveling</h2>
+                <div class="ano-duracao">
+                    <span>2024</span>
+                    <span>Brazil:16 EP/Japan:18 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero3">Anime/Fantasy</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.4/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Em um mundo de caçadores e monstros talentosos, um caçador fraco, Sung Jinwoo, ganha poderes extraordinários por meio de um programa misterioso, o que o leva a se tornar um dos caçadores mais fortes.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt21209876/?ref_=nv_sr_srsg_0_tt_7_nm_1_in_0_q_solo" class="botao3">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 4 -->
+        <div class="card-filme">
+            <img src="imagens/jujutsu.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo4">Jujutsu Kaisen</h2>
+                <div class="ano-duracao">
+                    <span>2020</span>
+                    <span>Brazil: 47 EP/ Japan 47 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero4">Anime/Supernatural Fantasy</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.5/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Um menino engole um talismã maldito e se torna amaldiçoado. Ele entra na escola de um xamã para poder localizar as outras partes do corpo do demônio e assim se exorcizar.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt12343534/?ref_=nv_sr_srsg_1_tt_5_nm_3_in_0_q_jujuj" class="botao4">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 5 -->
+        <div class="card-filme">
+            <img src="imagens/Shangri-lá.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo3">Shangri-La Frontier</h2>
+                <div class="ano-duracao">
+                    <span>2023</span>
+                    <span>Brazil: 41 EP/ Japan 44 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero3">Anime/Adventure</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        7.5/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Rakuro, um estudante do ensino médio, adora ganhar jogos ruins. Mas ele será capaz de descobrir todos os segredos escondidos em um jogo de realidade virtual super popular?
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt28776190/?ref_=nv_sr_srsg_0_tt_8_nm_0_in_0_q_shangr" class="botao3">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 6 -->
+        <div class="card-filme">
+            <img src="imagens/Circulo2.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo6">Pacific Rim: Uprising</h2>
+                <div class="ano-duracao">
+                    <span>2018</span>
+                    <span>1h 51m</span>
+                </div>
+                <div class="info">
+                    <span class="genero6">Kaiju/Adventure</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        5.6/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Jake Pentecost se junta com Mako Mori para liderar uma nova geração de pilotos para lutar contra uma nova ameaça Kaiju.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt2557478/?ref_=nv_sr_srsg_3_tt_8_nm_0_in_0_q_pacific%2520rim%2520" class="botao6">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 7 -->
+        <div class="card-filme">
+            <img src="imagens/Planetadotesouro.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo7">Planeta do Tesouro</h2>
+                <div class="ano-duracao">
+                    <span>2002</span>
+                    <span>1h 35m</span>
+                </div>
+                <div class="info">
+                    <span class="genero7">Fantasy/Animation</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        7.2/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Jim Hawkins é um adolescente que encontra o mapa de um grande tesouro, escondido tempos atrás por um pirata espacial. Juntamente com alguns amigos, ele parte em uma grande nave espacial.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt0133240/?ref_=nv_sr_srsg_4_tt_7_nm_0_in_0_q_Planeta%2520do%2520" class="botao7">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 8 -->
+        <div class="card-filme">
+            <img src="imagens/Interstellar.png" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo8">Interestellar</h2>
+                <div class="ano-duracao">
+                    <span>2014</span>
+                    <span>2h 49m</span>
+                </div>
+                <div class="info">
+                    <span class="genero8">Ficção científica/Epic</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.7/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Uma equipe de exploradores viaja através de um buraco de minhoca no espaço, na tentativa de garantir a sobrevivência da humanidade.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt0816692/?ref_=nv_sr_srsg_5_tt_4_nm_2_in_0_q_in" class="botao8">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 9 -->
+        <div class="card-filme">
+            <img src="imagens/FireForce.webp" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo9">Fire Force</h2>
+                <div class="ano-duracao">
+                    <span>2019</span>
+                    <span>Brazil: 48 EP/ Japan: 48 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero9">Anime/Dark Fantasy</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        7.6/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Uma força de bombeiros sobre-humana é formada para lidar com incidentes sobrenaturais de incêndio.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt9307686/?ref_=nv_sr_srsg_0_tt_8_nm_0_in_0_q_fire%2520fo" class="botao9">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 10 -->
+        <div class="card-filme">
+            <img src="imagens/Spider-man.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo3">Homem-Aranha: No Aranhaverso</h2>
+                <div class="ano-duracao">
+                    <span>2018</span>
+                    <span>1h 57m</span>
+                </div>
+                <div class="info">
+                    <span class="genero3">Animation/Superhero</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.4/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    O adolescente Miles Morales se torna o Homem-Aranha de seu universo e deve se juntar a cinco indivíduos com poderes de aranha de outras dimensões para impedir uma ameaça.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt4633694/?ref_=nv_sr_srsg_8_tt_7_nm_0_in_0_q_spider%2520ma" class="botao3">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 11 -->
+        <div class="card-filme">
+            <img src="imagens/Villandsaga.webp" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo4">Viland Saga</h2>
+                <div class="ano-duracao">
+                    <span>2023</span>
+                    <span>Brazil: 48 EP: Japan 48 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero4">Anime/Animation Adult</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.8/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Thorfinn embarca em uma jornada com o assassino de seu pai para se vingar e terminar sua vida em um duelo como um honrado guerreiro.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt10233448/?ref_=nv_sr_srsg_0_tt_5_nm_3_in_0_q_villand%2520saga" class="botao4">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 12 -->
+        <div class="card-filme">
+            <img src="imagens/JogosVorazes.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo4">Jogos Vorazes</h2>
+                <div class="ano-duracao">
+                    <span>2012</span>
+                    <span>2h 22m</span>
+                </div>
+                <div class="info">
+                    <span class="genero4">Action/Adventure</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        7.2/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Katniss Everdeen voluntariamente se oferece no lugar da sua irmã nos Jogos Vorazes, uma competição onde jovens de cada distrito de Panem são escolhidos para lutar.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt1392170/?ref_=nv_sr_srsg_0_tt_8_nm_0_in_0_q_jogos%2520vora" class="botao4">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 13 -->
+        <div class="card-filme">
+            <img src="imagens/Percy.webp" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo">Percy Jackson e os Olimpianos</h2>
+                <div class="ano-duracao">
+                    <span>2024</span>
+                    <span>Brazil: 12 EP/EUA: 12EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero">Fantasy epic/Mythology</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        7.0/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    O semideus Percy Jackson lidera uma missão em toda a América para evitar uma guerra entre os deuses do Olimpo.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt12324366/?ref_=nv_sr_srsg_0_tt_4_nm_4_in_0_q_Percy" class="botao">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 14 -->
+        <div class="card-filme">
+            <img src="imagens/Bleach1.webp" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo8">Bleach</h2>
+                <div class="ano-duracao">
+                    <span>2004</span>
+                    <span>Brazil: 366 EP/Japan: 366 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero8">Anime/Supernatural</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.2/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    O estudante Kurosaki Ichigo é diferente de qualquer criança comum, porque ele pode ver fantasmas.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt0434665/?ref_=nv_sr_srsg_0_tt_7_nm_1_in_0_q_blea" class="botao8">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 15 -->
+        <div class="card-filme">
+            <img src="imagens/Bleach.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo15">Bleach: Thousand-Year Blood War</h2>
+                <div class="ano-duracao">
+                    <span>2022</span>
+                    <span>Brazil: 40 EP/Japan: 40 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero15">Anime/Supernatural</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        9/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    A paz é quebrada quando sirenes soam na Soul Society. Moradores desaparecem sem deixar rastro e ninguém sabe quem está por trás disso.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt14986406/" class="botao15">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 16 -->
+        <div class="card-filme">
+            <img src="imagens/Arcane.webp" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo3">Arcane</h2>
+                <div class="ano-duracao">
+                    <span>2021</span>
+                    <span>18 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero3">Computer Animation/Action</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        9/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    As tensões entre duas cidades aumentam, e novas invenções podem provocar uma revolução.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt14986406/" class="botao3">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 17 -->
+        <div class="card-filme">
+            <img src="imagens/Até.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo17">Até o Último Homem</h2>
+                <div class="ano-duracao">
+                    <span>2016</span>
+                    <span>2h 19m</span>
+                </div>
+                <div class="info">
+                    <span class="genero17">War/Action</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.1/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Desmond T. Doss, médico da Segunda Guerra, se recusa a matar e se torna o primeiro a receber a Medalha de Honra sem atirar.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt2119532/?ref_=nv_sr_srsg_0_tt_8_nm_0_in_0_q_ate%2520o%2520" class="botao17">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 18 -->
+        <div class="card-filme">
+            <img src="imagens/StarWarsrebels.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo3">Star Wars: Rebels</h2>
+                <div class="ano-duracao">
+                    <span>2014</span>
+                    <span>75 EP</span>
+                </div>
+                <div class="info">
+                    <span class="genero3">Animation/Action</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.1/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    A tripulação da nave Fantasma defende os oprimidos contra o Império, iniciando uma rebelião.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt2930604/?ref_=nv_sr_srsg_0_tt_8_nm_0_in_0_q_star%2520wars%2520re" class="botao3">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 19 -->
+        <div class="card-filme">
+            <img src="imagens/Vingadoresultimato.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo19">Vingadores Ultimato</h2>
+                <div class="ano-duracao">
+                    <span>2019</span>
+                    <span>3h 1m</span>
+                </div>
+                <div class="info">
+                    <span class="genero19">Action/Superhero</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        8.4/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Após Guerra Infinita, os Vingadores se reúnem para desfazer as ações de Thanos e restaurar a ordem.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt4154796/?ref_=nv_sr_srsg_2_tt_8_nm_0_in_0_q_vinga" class="botao19">IMDB</a>
+            </div>
+        </div>
+
+        <!-- FILME 20 -->
+        <div class="card-filme">
+            <img src="imagens/Homemdeferro.jpg" alt="Poster do Filme" class="poster">
+            <div class="conteudo">
+                <h2 class="titulo7">Homem de Ferro 3</h2>
+                <div class="ano-duracao">
+                    <span>2013</span>
+                    <span>2h 10m</span>
+                </div>
+                <div class="info">
+                    <span class="genero7">Action/Superhero</span>
+                    <div class="avaliacao">
+                        <i class="fa-solid fa-star"></i>
+                        7.1/10
+                    </div>
+                </div>
+                <p class="descricao">
+                    Tony Stark enfrenta o Mandarin, reconstruindo e retaliando após um ataque ao seu mundo.
+                </p>
+                <a href="https://www.imdb.com/pt/title/tt1300854/?ref_=nv_sr_srsg_3_tt_8_nm_0_in_0_q_homem%2520de%2520ferro%2520" class="botao7">IMDB</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
